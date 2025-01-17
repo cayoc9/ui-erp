@@ -20,9 +20,12 @@ export const fetchChartData = createAsyncThunk(
   'charts/fetchChartData',
   async (filters = {}) => {
     try {
-      const response = await api.get('/api/statistics', { 
-        params: filters 
-      });
+      const params = {
+        startDate: filters.dateRange?.start,
+        endDate: filters.dateRange?.end,
+        ...filters
+      };
+      const response = await api.get('/statistics', { params });
       return response.data;
     } catch (error) {
       throw error.response?.data?.message || 'Erro ao carregar dados dos gráficos';

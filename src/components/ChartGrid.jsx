@@ -37,7 +37,7 @@ function ChartGrid({ layout = 'grid' }) {
     if (error) {
         return (
             <div className="flex items-center justify-center min-h-[400px] text-red-600">
-                <p>Error loading chart data: {error}</p>
+                <p>Erro ao carregar dados: {error.message || 'Erro desconhecido'}</p>
             </div>
         );
     }
