@@ -20,8 +20,8 @@ export const fetchChartData = createAsyncThunk(
   'charts/fetchChartData',
   async (filters = {}) => {
     try {
-      const response = await api.get('/api/statistics', { 
-        params: filters 
+      const response = await api.get('/statistics', {
+        params: filters
       });
       return response.data;
     } catch (error) {
