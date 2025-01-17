@@ -4,9 +4,18 @@ import api from '../services/api';
 // Fetch inconsistencies list
 export const fetchInconsistencias = createAsyncThunk(
   'inconsistencias/fetchInconsistencias',
-  async () => {
-    const response = await api.get('/failures');
-    return response.data;
+  async ({ page }) => {
+    console.log('Fetching page:', page);
+    try {
+      const response = await api.get('/failures', {
+        params: { page }
+      });
+      console.log('API Response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   }
 );
 
@@ -102,13 +111,15 @@ const inconsistenciasSlice = createSlice({
       })
       .addCase(fetchInconsistencias.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.list = action.payload.map(item => ({
+        // Verifica se payload tem a estrutura esperada e acessa data
+        const data = action.payload?.data || [];
+        state.list = data.map(item => ({
           ...item,
           timeOpen: calculateTimeOpen(item.createDate),
           hospitalName: item.hospital?.name || 'N/A',
           sectorName: item.sector?.name || 'N/A'
         }));
-        state.totalItems = action.payload.length;
+        state.totalItems = data.length;
       })
       .addCase(fetchInconsistencias.rejected, (state, action) => {
         state.status = 'failed';
@@ -156,8 +167,8 @@ const inconsistenciasSlice = createSlice({
       // Resolve
       .addCase(resolveInconsistencias.fulfilled, (state, action) => {
         const resolvedIds = action.payload.map(item => item.id);
-        state.list = state.list.map(inc => 
-          resolvedIds.includes(inc.id) 
+        state.list = state.list.map(inc =>
+          resolvedIds.includes(inc.id)
             ? { ...inc, status: 'resolved', resolvedDate: new Date().toISOString() }
             : inc
         );
