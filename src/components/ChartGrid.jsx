@@ -1,6 +1,7 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { fetchChartData } from '../redux/slices/chartsSlice';
 
 // Import chart components
 import InconsistencyTypeChart from './charts/InconsistencyTypeChart';
@@ -11,12 +12,17 @@ import ResolutionTrendChart from './charts/ResolutionTrendChart';
 import ResolutionRateChart from './charts/ResolutionRateChart';
 
 function ChartGrid({ layout = 'grid' }) {
-    // Get chart data and loading states from Redux
+    const dispatch = useDispatch();
+    const filters = useSelector((state) => state.filters);
     const {
         data: chartData,
         loading,
         error
     } = useSelector((state) => state.charts);
+
+    useEffect(() => {
+        dispatch(fetchChartData(filters));
+    }, [dispatch, filters]);
 
     // Handle loading state
     if (loading) {

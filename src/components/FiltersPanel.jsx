@@ -105,7 +105,7 @@ function FiltersPanel() {
                   id={`type-${type.id}`}
                   checked={filters.nonConformities.includes(type.id)}
                   onChange={handleNonConformityChange(type.id)}
-                  className="rounded border-gray-300"
+                  className="filter-checkbox"
                 />
                 <label htmlFor={`type-${type.id}`} className="ml-2 text-sm text-gray-700">
                   {type.description}

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../services/api';
+import api from '../../services/api';
 
 const initialState = {
   loading: false,
@@ -16,11 +16,17 @@ const initialState = {
 };
 
 // Thunks
-const fetchChartData = createAsyncThunk(
-  'charts/fetchData',
-  async (filters) => {
-    const response = await api.get('/statistics', { params: filters });
-    return response.data;
+export const fetchChartData = createAsyncThunk(
+  'charts/fetchChartData',
+  async (filters = {}) => {
+    try {
+      const response = await api.get('/api/statistics', { 
+        params: filters 
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || 'Erro ao carregar dados dos gráficos';
+    }
   }
 );
 
@@ -58,6 +64,21 @@ const chartsSlice = createSlice({
       state.loading = false;
       state.error = null;
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchChartData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchChartData.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload.data;
+      })
+      .addCase(fetchChartData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
   }
 });
 

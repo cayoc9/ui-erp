@@ -77,4 +77,10 @@
   .success-message {
     @apply text-green-600 text-sm mt-1;
   }
+
+  .filter-checkbox {
+    @apply h-4 w-4 !important;
+    @apply rounded-sm border-gray-300 text-primary-600;
+    @apply focus:ring-primary-500 cursor-pointer;
+  }
 }
