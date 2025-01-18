@@ -14,13 +14,13 @@ function EditInconsistency() {
     // Form state
     const [formData, setFormData] = useState({
         selectedProfissional: '',
-        cdProntuario: '',
+        cdProntuario: '', // Garanta que seja string vazia ao invés de undefined
         selectedFormulario: '',
         selectedInconsistencia: '',
         listaInconsistencias: [],
         selectedSetor: '',
         observacoes: '',
-        hospitalId: parseInt(import.meta.env.VITE_DEFAULT_HOSPITAL_ID)
+        hospitalId: parseInt(import.meta.env.VITE_DEFAULT_HOSPITAL_ID) || 1
     });
 
     // UI state
@@ -60,14 +60,14 @@ function EditInconsistency() {
     useEffect(() => {
         if (currentInconsistency) {
             setFormData({
-                selectedProfissional: currentInconsistency.professionalId,
-                cdProntuario: currentInconsistency.prontuarioCode,
-                selectedFormulario: currentInconsistency.formularioId,
+                selectedProfissional: currentInconsistency.professionalId || '',
+                cdProntuario: currentInconsistency.prontuarioCode || '',
+                selectedFormulario: currentInconsistency.formularioId || '',
                 selectedInconsistencia: '',
                 listaInconsistencias: currentInconsistency.tpInconsistenciaIds || [],
-                selectedSetor: currentInconsistency.sectorId,
+                selectedSetor: currentInconsistency.sectorId || '',
                 observacoes: currentInconsistency.observacoes || '',
-                hospitalId: currentInconsistency.hospitalId
+                hospitalId: currentInconsistency.hospitalId || parseInt(import.meta.env.VITE_DEFAULT_HOSPITAL_ID) || 1
             });
         }
     }, [currentInconsistency]);

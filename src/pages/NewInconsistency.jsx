@@ -92,7 +92,7 @@ function NewInconsistency() {
             listaInconsistencias: [],
             selectedSetor: '',
             observacoes: '',
-            hospitalId: 15
+            hospitalId: parseInt(import.meta.env.VITE_DEFAULT_HOSPITAL_ID)
         });
         setError(null);
         setSuccessMessage('');
