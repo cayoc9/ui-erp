@@ -18,7 +18,7 @@ const initialState = {
 // Thunks
 export const fetchChartData = createAsyncThunk(
   'charts/fetchChartData',
-  async (filters = {}) => {
+  async (filters = {}, { rejectWithValue }) => {
     try {
       const params = {
         startDate: filters.dateRange?.start,
@@ -28,7 +28,12 @@ export const fetchChartData = createAsyncThunk(
       const response = await api.get('/statistics', { params });
       return response.data;
     } catch (error) {
-      throw error.response?.data?.message || 'Erro ao carregar dados dos gráficos';
+      // If API fails, use mock data in development
+      if (import.meta.env.DEV) {
+        const { getMockedData } = await import('../mocks/chartData');
+        return await getMockedData();
+      }
+      return rejectWithValue(error.response?.data?.message || 'Erro ao carregar dados dos gráficos');
     }
   }
 );
