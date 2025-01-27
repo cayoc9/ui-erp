@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import DataUsageIcon from '@mui/icons-material/DataUsage';
 
 function Sidebar() {
     return (
@@ -20,6 +21,10 @@ function Sidebar() {
                 <Link to="/inconsistencies" className="flex items-center gap-2 hover:bg-gray-200 p-2 rounded">
                     <ListAltIcon />
                     <span>Inconsistências</span>
+                </Link>
+                <Link to="/pysus-query" className="flex items-center gap-2 hover:bg-gray-200 p-2 rounded">
+                    <DataUsageIcon />
+                    <span>Consulta DataSUS</span>
                 </Link>
             </nav>
         </aside>

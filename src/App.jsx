@@ -12,8 +12,9 @@ import Home from './pages/Home';
 import Inconsistencies from './pages/Incosistencies';
 import NewInconsistency from './pages/NewInconsistency';
 import EditInconsistency from './pages/EditInconsistency';
+import PySUSQuery from './pages/PySUSQuery';
 
-function ErrorFallback({error}) {
+function ErrorFallback({ error }) {
   return (
     <div className="p-4 bg-red-50 border border-red-400 rounded">
       <h2 className="text-red-800">Ocorreu um erro:</h2>
@@ -36,6 +37,7 @@ function App() {
               <Route path="/inconsistencies" element={<Inconsistencies />} />
               <Route path="/inconsistencies/new" element={<NewInconsistency />} />
               <Route path="/inconsistencies/edit/:id" element={<EditInconsistency />} />
+              <Route path="/pysus-query" element={<PySUSQuery />} />
             </Routes>
           </div>
         </div>

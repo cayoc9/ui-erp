@@ -8,6 +8,7 @@ import profissionaisReducer from './profissionaisSlice';
 import setoresReducer from './setoresSlice';
 import chartsReducer from './chartsSlice';
 import filtersReducer from './filtersSlice';
+import pysusReducer from './pysuSlice';
 
 // Importe outros slices conforme necessário
 
@@ -18,7 +19,8 @@ export const store = configureStore({
     profissionais: profissionaisReducer,
     setores: setoresReducer,
     charts: chartsReducer,
-    filters: filtersReducer
+    filters: filtersReducer,
+    pysus: pysusReducer
     // Adicione outros reducers aqui
   },
   middleware: (getDefaultMiddleware) =>
