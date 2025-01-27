@@ -2,8 +2,6 @@ import { defineConfig } from 'vite';
 import path from 'path';
 import react from '@vitejs/plugin-react-swc';
 
-console.log(import.meta);
-
 export default defineConfig({
   plugins: [react()],
   resolve: {

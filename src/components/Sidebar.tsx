@@ -11,27 +11,33 @@ import {
 } from '@/components/ui/Sidebar';
 import { AlertTriangle, Cross, Home, LucideLayoutDashboard } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
+import { APP_PAGES, EPages, EPageSections } from '@/constants/pages';
 
 const navbarLinks = [
   {
     title: 'Home',
-    url: '/',
+    url: EPages.HOME,
     Icon: Home,
+    section: EPageSections.HOME,
   },
   {
     title: 'Indicadores',
-    url: '/indicators',
+    url: EPages.INDICATORS,
     Icon: LucideLayoutDashboard,
+    section: EPageSections.INDICATORS,
   },
   {
     title: 'Falhas',
-    url: '/failures',
+    url: EPages.FAILURES,
     Icon: AlertTriangle,
+    section: EPageSections.FAILURES,
   },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { pathname } = useLocation();
+
+  const { section } = APP_PAGES?.[pathname as EPages];
 
   return (
     <Sidebar {...props}>
@@ -50,7 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu>
               {navbarLinks.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url} className="py-5">
+                  <SidebarMenuButton asChild isActive={section === item.section} className="py-5">
                     <Link to={item.url}>
                       <div className="flex items-center gap-2">
                         <item.Icon className="size-5" strokeWidth={2.5} />
