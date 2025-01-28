@@ -9,16 +9,17 @@ import { DateInput } from '@/components/ui/DateInput';
 import { NumberInput } from '@/components/ui/NumberInput';
 import { useNavigate } from 'react-router';
 import { TextInput } from '@/components/ui/TextInput';
+import { DateRangeInput } from '@/components/ui/DateRangeInput';
 
 interface CreateFailureFormData {
-  auditor: string | null;
-  registeringSector: string | null;
-  auditDate: Date | null;
+  auditor?: string;
+  registeringSector?: string;
+  auditDate: Date;
 
-  medicalRecordNumber?: number;
-  patientId: string;
-  dischargeSector: string;
-  hospitalizationDate: {
+  medicalRecordNumber: number;
+  patientId?: string;
+  dischargeSector?: string;
+  hospitalizationDate?: {
     start: Date;
     end: Date;
   };
@@ -50,7 +51,7 @@ interface CreateFailureFormData {
 // Setor responsável pela falha - Select
 // Observação - TextArea name: z.string().min(1).or(z.string()).refine(val => val.length > 0, { message: defaultErrorMessage }),
 
-const FormSchema = z.object({
+const formSchema = z.object({
   auditor: z.string().optional(),
   registeringSector: z.string().optional(),
   auditDate: z.date({
@@ -63,13 +64,19 @@ const FormSchema = z.object({
     .min(1),
   patientId: z.string().optional(),
   dischargeSector: z.string().optional(),
+  hospitalizationDate: z
+    .object({
+      start: z.date(),
+      end: z.date(),
+    })
+    .optional(),
 });
 
 export const CreateFailureForm = () => {
   const navigate = useNavigate();
 
   const form = useForm<CreateFailureFormData>({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(formSchema),
   });
 
   const handleSubmit = form.handleSubmit((data) => {
@@ -79,57 +86,72 @@ export const CreateFailureForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="mt-8 flex w-full justify-center">
-        <div className="flex w-[80%] flex-col gap-10">
-          <div className="flex gap-8">
-            <SearchableSelect
-              control={form.control}
-              name="auditor"
-              options={auditorOptions}
-              label="Auditor"
-              description="Selecione o auditor responsável"
-            />
+        <div className="flex w-[75%] flex-col gap-10">
+          <div className="flex flex-col gap-5">
+            <h2 className="text-2xl font-semibold">Informações gerais</h2>
 
-            <SearchableSelect
-              control={form.control}
-              name="registeringSector"
-              options={registeringSectorOptions}
-              label="Setor registrante"
-              description="Selecione o setor de quem registra a falha"
-            />
-          </div>
+            <div className="flex flex-col gap-10">
+              <div className="flex gap-8">
+                <SearchableSelect
+                  control={form.control}
+                  name="auditor"
+                  options={auditorOptions}
+                  label="Auditor"
+                  description="Selecione o auditor responsável"
+                />
 
-          <div className="flex gap-8">
-            <DateInput
-              control={form.control}
-              name="auditDate"
-              label="Data da auditoria *"
-              description="Selecione a data da realização da auditoria"
-            />
+                <SearchableSelect
+                  control={form.control}
+                  name="registeringSector"
+                  options={registeringSectorOptions}
+                  label="Setor registrante"
+                  description="Selecione o setor de quem registra a falha"
+                />
+              </div>
 
-            <NumberInput
-              control={form.control}
-              name="medicalRecordNumber"
-              label="Número do prontuário *"
-              placeholder="Digite o número do prontuário"
-              description="Número do prontuário do paciente"
-            />
-          </div>
+              <div className="flex gap-8">
+                <DateInput
+                  control={form.control}
+                  name="auditDate"
+                  label="Data da auditoria *"
+                  description="Selecione a data da realização da auditoria"
+                />
 
-          <div className="flex gap-8">
-            <TextInput
-              control={form.control}
-              name="patientId"
-              label="Id do paciente"
-              description="Informe o Id do paciente"
-            />
+                <NumberInput
+                  control={form.control}
+                  name="medicalRecordNumber"
+                  label="Número do prontuário *"
+                  placeholder="Digite o número do prontuário"
+                  description="Número do prontuário do paciente"
+                />
+              </div>
 
-            <SearchableSelect
-              control={form.control}
-              name="dischargeSector"
-              options={dischargeSectorOptions}
-              label="Setor de alta"
-              description="Selecione o setor de alta"
-            />
+              <div className="flex gap-8">
+                <TextInput
+                  control={form.control}
+                  name="patientId"
+                  label="Id do paciente"
+                  description="Informe o Id do paciente"
+                />
+
+                <SearchableSelect
+                  control={form.control}
+                  name="dischargeSector"
+                  options={dischargeSectorOptions}
+                  label="Setor de alta"
+                  description="Selecione o setor de alta"
+                />
+              </div>
+
+              <div className="flex w-1/2 gap-8 pr-5">
+                <DateRangeInput
+                  control={form.control}
+                  name="hospitalizationDate"
+                  label="Período de internação"
+                  description="Selecione a data de início e fim da internação"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="mt-12 flex justify-end gap-3">

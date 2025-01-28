@@ -8,6 +8,7 @@ import { Button } from './Button';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { Calendar } from './Calendar';
+import { ptBR } from 'date-fns/locale';
 
 interface DateInputProps {
   name: string;
@@ -47,7 +48,11 @@ export const DateInput: FC<DateInputProps> = ({
                       !field.value && 'text-muted-foreground',
                     )}
                   >
-                    {field.value ? format(field.value, 'PPP') : <span>{placeholder}</span>}
+                    {field.value ? (
+                      format(field.value, 'PPP', { locale: ptBR })
+                    ) : (
+                      <span>{placeholder}</span>
+                    )}
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                   </Button>
                 </FormControl>
@@ -62,6 +67,7 @@ export const DateInput: FC<DateInputProps> = ({
                   }}
                   disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                   initialFocus
+                  locale={ptBR}
                 />
               </PopoverContent>
             </Popover>
