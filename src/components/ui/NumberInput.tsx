@@ -30,7 +30,13 @@ export const NumberInput: FC<NumberInputProps> = ({
           <FormItem className="flex flex-col">
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Input placeholder={placeholder} type="number" className="no-controls" {...field} />
+              <Input
+                placeholder={placeholder}
+                type="number"
+                className="no-controls"
+                {...field}
+                value={field.value ?? ''}
+              />
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
             <FormMessage />

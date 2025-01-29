@@ -2,24 +2,26 @@
 import { FC } from 'react';
 import { Control } from 'react-hook-form';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './Form';
-import { Input } from './Input';
+import { Textarea } from './Textarea';
 
-interface TextInputProps {
+interface TextAreaInputProps {
   name: string;
   control: Control<any>;
   label: string;
   placeholder?: string;
   description?: string;
   widthClass?: string;
+  resize?: boolean;
 }
 
-export const TextInput: FC<TextInputProps> = ({
+export const TextAreaInput: FC<TextAreaInputProps> = ({
   name,
   control,
-  placeholder = 'Digite aqui',
+  placeholder = 'Digite aqui...',
   description,
   label,
   widthClass = 'w-full',
+  resize = true,
 }) => {
   return (
     <div className={widthClass}>
@@ -30,7 +32,12 @@ export const TextInput: FC<TextInputProps> = ({
           <FormItem className="flex flex-col">
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Input placeholder={placeholder} {...field} value={field.value ?? ''} />
+              <Textarea
+                placeholder={placeholder}
+                className={resize ? '' : 'resize-none'}
+                {...field}
+                value={field.value ?? ''}
+              />
             </FormControl>
             {description && <FormDescription>{description}</FormDescription>}
             <FormMessage />

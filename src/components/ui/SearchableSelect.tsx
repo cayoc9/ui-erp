@@ -34,7 +34,7 @@ export const SearchableSelect: FC<SearchableSelectProps> = ({
   name,
   control,
   options,
-  placeholder = 'Selecione uma opção',
+  placeholder = 'Clique aqui para selecionar',
   description,
   label,
   widthClass = 'w-full',

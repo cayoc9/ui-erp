@@ -22,7 +22,7 @@ interface DateRangeInputProps {
 export const DateRangeInput: React.FC<DateRangeInputProps> = ({
   name,
   control,
-  placeholder = 'Selecione uma data',
+  placeholder = 'Selecione um período',
   description,
   label,
   widthClass = 'w-full',
