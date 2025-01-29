@@ -1,6 +1,7 @@
 import React from 'react';
 import { FailuresProvider } from './FailureContext';
 import { AuthProvider } from './AuthContext';
+import { SectorsProvider } from './SectorsContext';
 
 interface Props {
   children: React.ReactNode;
@@ -8,6 +9,8 @@ interface Props {
 
 export const AppProvider = ({ children }: Props) => (
   <AuthProvider>
-    <FailuresProvider>{children}</FailuresProvider>
+    <SectorsProvider>
+      <FailuresProvider>{children}</FailuresProvider>
+    </SectorsProvider>
   </AuthProvider>
 );
