@@ -9,8 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/DropdownMenu';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const HeaderUserMenu = () => {
+  const { logout } = useAuth();
+
   const renderUserCard = () => (
     <div className="flex cursor-pointer items-center gap-2 px-2 py-0.5">
       <div className="flex items-center gap-3">
@@ -48,7 +51,7 @@ export const HeaderUserMenu = () => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>Sair</DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>Sair</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

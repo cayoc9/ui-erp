@@ -202,8 +202,6 @@ export const CreateFailureForm = () => {
     </React.Fragment>
   );
 
-  form.watch();
-
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="mt-8 flex w-full justify-center">
@@ -288,7 +286,7 @@ export const CreateFailureForm = () => {
             </Button>
           </div>
 
-          <div className="mt-12 flex justify-end gap-3">
+          <div className="flex justify-end gap-3">
             <Button variant="destructive" onClick={() => navigate('/failures')}>
               Cancelar
             </Button>
