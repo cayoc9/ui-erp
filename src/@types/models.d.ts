@@ -4,4 +4,10 @@ declare namespace Models {
     name: string;
     hospitalId: number;
   }
+
+  interface Inconsistency {
+    id: number;
+    description: string;
+    status: boolean;
+  }
 }

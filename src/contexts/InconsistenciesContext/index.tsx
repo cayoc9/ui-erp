@@ -1,5 +1,5 @@
 import { ContextData } from '@/@types/common';
-import { SectorsService } from '@/services/SectorsService';
+import { InconsistenciesService } from '@/services/InconsistenciesService';
 import {
   createContext,
   useCallback,
@@ -11,40 +11,40 @@ import {
 } from 'react';
 import { useLocation } from 'react-router';
 
-interface SectorsContextData {
-  sectors: Sectors;
-  resetSectorsContext: VoidFunction;
+interface InconsistenciesContextData {
+  Inconsistencies: Inconsistencies;
+  resetInconsistenciesContext: VoidFunction;
 }
 
-type Sectors = ContextData<Models.Sector>;
+type Inconsistencies = ContextData<Models.Inconsistency>;
 
 interface Props {
   children: React.ReactNode;
 }
 
-const context = createContext<SectorsContextData>({} as SectorsContextData);
+const context = createContext<InconsistenciesContextData>({} as InconsistenciesContextData);
 
-export const SectorsProvider: React.FC<Props> = ({ children }) => {
+export const InconsistenciesProvider: React.FC<Props> = ({ children }) => {
   const hasLoaded = useRef(false);
 
   const { pathname } = useLocation();
 
-  const [sectors, setSectors] = useState<Sectors>({
+  const [Inconsistencies, setInconsistencies] = useState<Inconsistencies>({
     data: [],
     isLoading: false,
   });
 
   const handleLoadData = useCallback(async () => {
-    setSectors((p) => ({
+    setInconsistencies((p) => ({
       ...p,
       isLoading: true,
     }));
 
     try {
-      const sectors = await SectorsService.getSectors();
+      const Inconsistencies = await InconsistenciesService.getSectors();
 
-      setSectors({
-        data: sectors,
+      setInconsistencies({
+        data: Inconsistencies,
         isLoading: false,
       });
 
@@ -66,8 +66,8 @@ export const SectorsProvider: React.FC<Props> = ({ children }) => {
     handleLoadData();
   }, [handleLoadData, pathname]);
 
-  const resetSectorsContext = useCallback(() => {
-    setSectors({
+  const resetInconsistenciesContext = useCallback(() => {
+    setInconsistencies({
       data: [],
       isLoading: false,
     });
@@ -77,20 +77,20 @@ export const SectorsProvider: React.FC<Props> = ({ children }) => {
 
   const value = useMemo(
     () => ({
-      sectors,
-      resetSectorsContext,
+      Inconsistencies,
+      resetInconsistenciesContext,
     }),
-    [sectors, resetSectorsContext],
+    [Inconsistencies, resetInconsistenciesContext],
   );
 
   return <context.Provider value={value}>{children}</context.Provider>;
 };
 
-export const useSectors = () => {
+export const useInconsistencies = () => {
   const ctx = useContext(context);
 
   if (!ctx) {
-    throw new Error('Error inside of useSectors');
+    throw new Error('Error inside of useInconsistencies');
   }
 
   return ctx;
